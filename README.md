@@ -1,57 +1,91 @@
-![LogoText (1)](https://user-images.githubusercontent.com/21222764/195284805-3b216b8e-387b-46fa-b03f-4012d6584673.png)
+# NEAR Lands
 
+This project demonstrates how you can use [NEAR blockchain](https://near.org) for user accounts, storage and turn-based game logic. It also demonstrates usage of [simple-peer](https://github.com/feross/simple-peer) to enable real time peer to peer communication between users (used to share location of every user).
 
-Twitter: [NEAR Holistic](https://twitter.com/NEARHolystic)
+It also allows users who are close by on the map to communicate via voice chat.
 
-## Concept.
+## Requirements
 
-The world [NEAR Holistic](https://twitter.com/NEARHolystic) in [NEAR Lands](https://twitter.com/NearLands) with its own history (Middle Ages, but the world is not quite our world). The history of the world will develop depending on the actions of the players. As planned, the world will also change its appearance from the events / decisions of the players. Displaying history on the Holistic Pilgrim website.
+[Node.js](https://nodejs.org) is required to install dependencies and run scripts via `npm`.
 
-And also at any time players can spend time in this world - listen to music in the park, hold meetings, visit the NFT gallery etc.
+## Available Commands
 
-Main events: 
-1. Puzzles/puzzles; 
-2. Random events;
+| Command | Description |
+|---------|-------------|
+| `npm install` | Install project dependencies |
+| `npm start` | Build project and open web server running project |
+| `npm run build` | Builds code bundle with production settings (minification, uglification, etc..) |
 
-## Puzzle.
+## Writing Code
 
-Puzzles/puzzles will be rewarded. Rewards: NEAR, internal token (?). Some puzzles can be made in such a way that players interact with NEAR ecosystem projects (for example: throw Ref Finance into the liquidity pool; interaction with the Croncat contract created for the puzzle).
+After cloning the repo, run `npm install` from your project directory. Then, you can start the local development server by running `npm start`.
 
-An example of a simple puzzle: 
+After starting the development server with `npm start`, you can edit any files in the `src` folder and Parcel will automatically recompile and reload your server (available at `http://localhost:1234` by default).
 
-1. Interaction with the title plate on the map;
-2. Link to the text of the puzzle after the interaction;
-3. Solving the puzzle by the player: 
-3.1. Mint NFT via a unique link; 
-3.2. Sending NFT to a specific wallet (as a confirmation of the decision);
-5. The results of the puzzle.
+### Important files / directories
 
-### Atocha Protocol
+- `static/` – static assets that gonna be copied as is to `dist/` folder. Includes `lpc-character` folder which contains character spritesheets provided by https://github.com/jrconway3/Universal-LPC-spritesheet project. You can use http://gaurav.munjal.us/Universal-LPC-Spritesheet-Character-Generator/ to explore available sprites.
+- `src/assets` – static assets that can be included from `.js` files and processed by Parcel (including tile images)
+- `src/index.js` – main JS entry point and game logic
+- `src/near.js` – boilerplate related to NEAR blockchain
+- `src/p2p.js` – common code to establish peer to peer connectivity
+– `src/player.js` – logic related to player characters (including remote)
+- `src/phaser-plugin-virtual-gamepad.js` – virtual gamepad plugin for use with touch screen devices
+- `index.html` – entry point for webapp build
 
-I have already contacted Atocha Protocol and my idea of ​​a collaboration could be to do some puzzles directly through Atocha. (Check with Vlad)
+## Customizing the Template
 
- 
+### Babel
 
-## History of the world.
+You can write modern ES6+ JavaScript and Babel will transpile it to a version of JavaScript that you want your project to support. The targeted browsers are set in the `.babelrc` file and the default currently targets all browsers with total usage over "0.25%" but excludes IE11 and Opera Mini.
 
-After each solution of the puzzle, the results will be summed up and depending on the result (the percentage of players who solved the puzzle / not solved the puzzle / only one solved the puzzle), the history of the world will change. The history of the world in milestone will be recorded on the blockchain. Major events will be displayed on the Holistic Pilgrim website.
+ ```
+"browsers": [
+  ">0.25%",
+  "not ie 11",
+  "not op_mini all"
+]
+ ```
 
-First puzzles/puzzles: 
-1. Collect items on the map;
-2. Simple puzzles (they won't be directly in NEAR Lands)
+### Parcel
 
+Check out https://v2.parceljs.org/ for documentation on how to customize configuration and common recipes.
 
-## Entertainment.
+## Deploying Code
 
-- Fishing;
-- Daily quests (collecting items)
+After you run the `npm run build` command, frontend code will be built in the `dist/` folder along with any other assets you project depended. 
 
+To deploy frontend code using [web4](https://github.com/vgrichina/web4) you can use `npm run deploy:static`. You can set target contract name in `src/config.js` file or through `CONTRACT_NAME` environment variable. This is using [`web4-deploy`](https://github.com/vgrichina/web4-deploy) to upload static files to IPFS, pin it and update the hash addrssed by the smart contract.
 
+Note that smart contract needs to be already deployed on the given account using `npm run deploy`. 
 
-## Additionally, ideas.
-- "Diary" of players - any player will be able to make an entry in the blockchain in the form of a diary (most likely with pre-moderation)
+Deploying on account like `lands.near` results in corresponding `.near.page` website like https://lands.near.page.
 
+## Roadmap
 
+-  Game features
+  - [ ] NFT gallery support (custom images placed inside world)
+  - [ ] Portal support (world coordinates)
+  - [ ] Portal support (websites)
+  - [ ] Music/sound source support 
+  - [ ] Grouped UI for build material selection
+  - [ ] Quick access bar for material selection
+  - [ ] Larger choice of building materials
+  - [ ] Trade tokens with users you are closed by (like in Civilization, etc)
+  - [ ] Load land content from custom smart contract 
+  - [ ] Interact with smart contracts through in game items
 
-## What is all this for?
-One of the initial goals is to build hype around the NEAR ecosystem and increase interest in the Metaverse and p2e on NEAR.
+- Land sale
+  - [ ] Own land parcel as NFT
+  - [ ] Enforce restrictions on other users on your parcel
+
+- Voice chat
+  - [ ] Push to talk to limit bandwidth and noise
+  - [ ] Experiment with adjusting pan in spatial audio
+  - [ ] Use multiple rooms to scale?
+  - [ ] Use server-side mixing to scale? (estimate how much gonna cost to operate)
+
+- Future direction
+  - Multiple interconnected worlds
+  - Native mobile apps
+
